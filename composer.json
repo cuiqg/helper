@@ -1,0 +1,41 @@
+{
+  "name": "cuiqg/helper",
+  "description": "个人常用辅助函数",
+  "version": "1.0.0-dev",
+  "type": "library",
+  "license": "Unlicense",
+  "authors": [
+    {
+      "name": "cuiqg",
+      "email": "i@cuiqg.me"
+    }
+  ],
+  "support": {
+    "source": "https://github.com/cuiqg/helper",
+    "wiki": "https://github.com/cuiqg/helper/wiki"
+  },
+  "require": {
+    "guzzlehttp/guzzle": "^6.5"
+  },
+  "autoload": {
+      "psr-4": {
+        "Cuiqg\\Helper\\": "src/"
+      }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Cuiqg\\Helper\\Tests\\": "tests/"
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "repositories": [
+    {
+     "type": "composer",
+      "url": "https://php.cnpkg.org"
+    }
+  ]
+}
