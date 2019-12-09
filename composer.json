@@ -15,7 +15,9 @@
     "wiki": "https://github.com/cuiqg/helper/wiki"
   },
   "require": {
-    "guzzlehttp/guzzle": "^6.5"
+    "php": ">=7.0",
+    "ext-mbstring": "*",
+    "ext-json": "*"
   },
   "autoload": {
       "psr-4": {
