@@ -10,10 +10,6 @@
       "email": "i@cuiqg.me"
     }
   ],
-  "support": {
-    "source": "https://github.com/cuiqg/helper",
-    "wiki": "https://github.com/cuiqg/helper/wiki"
-  },
   "require": {
     "php": ">=7.0",
     "ext-mbstring": "*",
