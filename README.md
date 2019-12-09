@@ -1,4 +1,2 @@
 
-<p align="center">
-<img src="https://img.vim-cn.com/0b/a96ecc0eb95df1170de784e790b845ef726681.jpg" width="420">
-</p>
+![](https://o.cuiqg.me/blooog/28158217_2001270813532699_8459130997928099840_n.jpg)
