@@ -1,1 +1,1 @@
-<p align="center"><img src="https://i.loli.net/2019/12/08/MdfQewEWLh5IxZn.jpg"></p>
+<p align="center"><img width="400px" src="https://i.loli.net/2019/12/08/MdfQewEWLh5IxZn.jpg"></p>
