@@ -1,9 +1,12 @@
 {
   "name": "cuiqg/helper",
   "description": "个人常用辅助函数",
-  "version": "1.0.0-dev",
   "type": "library",
   "license": "MIT",
+  "time": "2019-12-11",
+  "keywords": [
+    "helper"
+  ],
   "authors": [
     {
       "name": "cuiqg",
@@ -17,6 +20,7 @@
     "php": ">=7.0",
     "ext-mbstring": "*",
     "ext-json": "*",
+    "ext-curl": "*",
     "ext-SimpleXML": "*"
   },
   "autoload": {
