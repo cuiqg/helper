@@ -3,13 +3,16 @@
   "description": "个人常用辅助函数",
   "version": "1.0.0-dev",
   "type": "library",
-  "license": "Unlicense",
+  "license": "MIT",
   "authors": [
     {
       "name": "cuiqg",
       "email": "i@cuiqg.me"
     }
   ],
+  "support": {
+    "source": ""
+  },
   "require": {
     "php": ">=7.0",
     "ext-mbstring": "*",
@@ -18,7 +21,10 @@
   "autoload": {
       "psr-4": {
         "Cuiqg\\Helper\\": "src/"
-      }
+      },
+    "files": [
+      "helpers.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {
@@ -29,7 +35,6 @@
     "sort-packages": true
   },
   "minimum-stability": "dev",
-  "prefer-stable": true,
   "repositories": [
     {
      "type": "composer",
