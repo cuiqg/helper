@@ -11,12 +11,13 @@
     }
   ],
   "support": {
-    "source": ""
+    "source": "https://github.com/cuiqg/helper"
   },
   "require": {
     "php": ">=7.0",
     "ext-mbstring": "*",
-    "ext-json": "*"
+    "ext-json": "*",
+    "ext-SimpleXML": "*"
   },
   "autoload": {
       "psr-4": {
