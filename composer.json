@@ -31,19 +31,9 @@
       "src/helpers.php"
     ]
   },
-  "autoload-dev": {
-    "psr-4": {
-      "Cuiqg\\Helper\\Tests\\": "tests/"
-    }
-  },
   "config": {
     "sort-packages": true
   },
   "minimum-stability": "dev",
-  "repositories": [
-    {
-     "type": "composer",
-      "url": "https://php.cnpkg.org"
-    }
-  ]
+  "prefer-stable": true
 }

@@ -34,4 +34,24 @@ class Arr
 
         return value($default);
     }
+
+    /**
+     * 转为 XML
+     * @param array $data
+     * @return string
+     */
+    public static function toXml($data) {
+
+        $xml = "<xml>";
+        foreach($data as $key => $val) {
+            if(is_numeric($val)) {
+                $xml .= "<{$key}>{$val}</{$key}>";
+            } else {
+                $xml .= "<{$key}><![CDATA[{$val}]]></{$key}>";
+            }
+        }
+        $xml.="</xml>";
+
+        return $xml;
+    }
 }

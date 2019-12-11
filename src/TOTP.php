@@ -11,7 +11,7 @@
 
 namespace Cuiqg\Helper;
 
-use Exception;
+use \DomainException;
 /**
  * Google Authenticator 二步验证
  *
@@ -21,16 +21,7 @@ use Exception;
  */
 class TOTP
 {
-    protected $_codeLength = 6;
-
-    /**
-     * @param int $length
-     * @return $this
-     */
-    public function setCodeLength($length) {
-        $this->_codeLength = $length;
-        return $this;
-    }
+    protected static $_codeLength = 6;
 
     /**
      * 创建 Secret
@@ -39,10 +30,10 @@ class TOTP
      * @return string
      * @throws Exception
      */
-    public function createSecret($secretLength = 16) {
-        $validChars = $this->_getBase32LookupTable();
+    public static function createSecret($secretLength = 16) {
+        $validChars = static::_getBase32LookupTable();
         if($secretLength < 16 || $secretLength > 128) {
-           throw new Exception('无效的Secret 长度');
+           throw new DomainException('无效的Secret 长度');
         }
 
         $secret = '';
@@ -75,12 +66,12 @@ class TOTP
      * @param int|null $timeSlice
      * @return string
      */
-    public function getCode($secret, $timeSlice = null)
+    public static function getCode($secret, $timeSlice = null)
     {
         if ($timeSlice === null) {
             $timeSlice = floor(time() / 30);
         }
-        $secretkey = $this->_base32Decode($secret);
+        $secretkey = static::_base32Decode($secret);
 
         $time = chr(0).chr(0).chr(0).chr(0).pack('N*', $timeSlice);
 
@@ -94,8 +85,8 @@ class TOTP
         $value = $value[1];
 
         $value = $value & 0x7FFFFFFF;
-        $modulo = pow(10, $this->_codeLength);
-        return str_pad($value % $modulo, $this->_codeLength, '0', STR_PAD_LEFT);
+        $modulo = pow(10, static::$_codeLength);
+        return str_pad($value % $modulo, static::$_codeLength, '0', STR_PAD_LEFT);
     }
 
     /**
@@ -107,7 +98,7 @@ class TOTP
      * @param array $params
      * @return string
      */
-    public function getQRCodeUrl($name, $secret, $title = null, $params = []) {
+    public static function getQRCodeUrl($name, $secret, $title = null, $params = []) {
         $width = !empty($params['width']) && (int) $params['width'] > 0 ? (int) $params['width'] : 200;
         $height = !empty($params['height']) && (int) $params['height'] > 0 ? (int) $params['height'] : 200;
         $level = !empty($params['level']) && array_search($params['level'], array('L', 'M', 'Q', 'H')) !== false ? $params['level'] : 'M';
@@ -126,7 +117,7 @@ class TOTP
      * @param int|null $currentTimeSlice
      * @return bool
      */
-    public function verifyCode($secret, $code, $discrepancy = 1, $currentTimeSlice = null)
+    public static function verifyCode($secret, $code, $discrepancy = 1, $currentTimeSlice = null)
     {
         if($currentTimeSlice === null) {
             $currentTimeSlice = floor(time() / 30);
@@ -137,20 +128,20 @@ class TOTP
         }
 
         for($i = -$discrepancy; $i <= $discrepancy; ++$i) {
-            $calculatedCode = $this->getCode($secret, $currentTimeSlice + $i);
-            if($this->timingSafeEquals($calculatedCode, $code)) {
+            $calculatedCode = static::getCode($secret, $currentTimeSlice + $i);
+            if(static::timingSafeEquals($calculatedCode, $code)) {
                 return true;
             }
         }
         return false;
     }
 
-    protected function _base32Decode($secret) {
+    protected static function _base32Decode($secret) {
         if(empty($secret)) {
             return '';
         }
 
-        $base32Chars = $this->_getBase32LookupTable();
+        $base32Chars = static::_getBase32LookupTable();
         $base32CharsFlipped = array_flip($base32Chars);
 
         $paddingCharCount = substr_count($secret, $base32Chars[32]);
@@ -190,7 +181,7 @@ class TOTP
         return $binaryString;
     }
 
-    protected function _getBase32LookupTable() {
+    protected static function _getBase32LookupTable() {
         return [
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', //  7
             'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', // 15
@@ -200,7 +191,7 @@ class TOTP
         ];
     }
 
-    private function timingSafeEquals($safeString, $userString) {
+    private static function timingSafeEquals($safeString, $userString) {
         if(function_exists('hash_equals')) {
             return hash_equals($safeString, $userString);
         }
