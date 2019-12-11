@@ -18,10 +18,11 @@
   },
   "require": {
     "php": ">=7.0",
-    "ext-mbstring": "*",
-    "ext-json": "*",
+    "ext-SimpleXML": "*",
     "ext-curl": "*",
-    "ext-SimpleXML": "*"
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "aliyuncs/oss-sdk-php": "^2.3"
   },
   "autoload": {
       "psr-4": {
