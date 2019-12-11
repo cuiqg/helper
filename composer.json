@@ -3,9 +3,9 @@
   "description": "个人常用辅助函数",
   "type": "library",
   "license": "MIT",
-  "time": "2019-12-11",
   "keywords": [
-    "helper"
+    "helper",
+    "cuiqg"
   ],
   "authors": [
     {
