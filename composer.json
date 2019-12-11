@@ -2,7 +2,7 @@
   "name": "cuiqg/helper",
   "description": "个人常用辅助函数",
   "type": "library",
-  "license": "MIT",
+  "license": "proprietary",
   "keywords": [
     "helper",
     "cuiqg"
