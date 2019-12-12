@@ -112,4 +112,23 @@ class Str
     {
         return mb_substr($string, $start, $length, 'UTF-8');
     }
+
+    /**
+     * 隐藏手机号中间部分
+     *
+     * @param string $mobile
+     * @param string $replacement
+     * @return string
+     */
+    public static function concealMobile($mobile, $replacement = '^-^') {
+
+        $replacement = " {$replacement} ";
+
+        if( filter_var( $mobile, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^1[2-9]\d{9}$/']])) {
+
+           return substr_replace($mobile, $replacement, 3, 4);
+        }
+
+        return $mobile;
+    }
 }
