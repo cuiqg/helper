@@ -10,26 +10,26 @@ namespace Cuiqg\Helper;
 class Password
 {
 
-    public function make($value)
+    public static function make($value)
     {
-        return password_hash($value, $this->algorithm());
+        return password_hash($value, self::algorithm());
     }
 
-    public function check($value, $hashedValue) {
+    public static function check($value, $hashedValue) {
         return password_verify($value, $hashedValue);
     }
 
-    public function needsRehash($hashedValue)
+    public static function needsRehash($hashedValue)
     {
-        return password_needs_rehash($hashedValue, $this->algorithm());
+        return password_needs_rehash($hashedValue, self::algorithm());
     }
 
-    public function info($hashedValue)
+    public static function info($hashedValue)
     {
         return password_get_info($hashedValue);
     }
 
-    protected function algorithm()
+    protected static function algorithm()
     {
         return PASSWORD_DEFAULT;
     }
