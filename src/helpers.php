@@ -36,7 +36,7 @@ if(! function_exists('curl_request')) {
      * @return bool|string
      * @throws Exception
      */
-    function curl_request($url, $method = 'get', $params = [], $header = [], $ssl = [], $timeout = 30) {
+    function curl_request($url, $params = [], $method = 'get', $header = [], $ssl = [], $timeout = 30) {
         $ch = curl_init();
 
         if( strcasecmp($method, 'get') == 0 && !empty($params)) {
