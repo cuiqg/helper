@@ -14,24 +14,26 @@ use InvalidArgumentException;
 
 class Junlong
 {
-    protected static $username;
-    protected static $password;
-    protected static $extend;
+    protected $username;
+    protected $password;
+    protected $extend;
 
     public function __construct($config)
     {
-        static::$username = $config['username'];
-        static::$password = $config['password'];
-        static::$extend = $config['extend'];
+        $this->username = $config['username'];
+        $this->password = $config['password'];
+        $this->extend = $config['extend'];
     }
 
-    public static function send( $mobile, $content, $level = 1) {
+    public function send( $mobile, $content, $level = 1) {
+
         $url = 'http://hy.junlongtech.com:8086/getsms';
+
         $params = [
-            'username' => static::$username,
-            'password' => static::$password,
-            'mobile' => static::formatMobile($mobile),
-            'extend' => static::$extend,
+            'username' => $this->username,
+            'password' => $this->password,
+            'mobile' => $this->formatMobile($mobile),
+            'extend' => $this->extend,
             'level' => $level,
             'content' => $content,
         ];
@@ -47,7 +49,7 @@ class Junlong
         }
     }
 
-    protected static function formatMobile($mobile) {
+    protected function formatMobile($mobile) {
         return is_array($mobile) ? implode(',', $mobile) : trim($mobile);
     }
 }
