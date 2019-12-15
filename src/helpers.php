@@ -39,11 +39,13 @@ if(! function_exists('ip_info')) {
         $ip = trim($ip);
 
         if(!filter_var($ip, FILTER_VALIDATE_IP)) {
-            throw new Exception('需要为有效IP');
+            throw new Exception('IP无效');
         }
 
         $url = 'http://freeapi.ipip.net/' . $ip;
+
         $res = curl_request( $url, [], 'get');
+        $res = json_decode($res, true);
 
         return [
             'country'  => $res[0],
