@@ -47,12 +47,12 @@ class Junlong
             'extend' => $this->extend,
         ];
 
-        $result = curl_request( $url, $params, 'post');
+        $result = curl_request( $url, $params, 'get');
 
         parse_str($result, $parseResult);
 
         if($parseResult['result'] == 0) {
-            return $parseResult['msgid'];
+            return $parseResult['msgId'];
         } else {
             throw new Exception($this->parseError($parseResult['result']), -1);
         }
