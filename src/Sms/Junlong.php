@@ -10,8 +10,9 @@
  */
 
 namespace Cuiqg\Helper\Sms;
-use Exception;
+
 use Cuiqg\Helper\Validator;
+use Exception;
 
 class Junlong
 {
@@ -31,7 +32,6 @@ class Junlong
      *
      * @param string $mobile
      * @param string $content
-     * @param  int  $level
      * @return bool|mixed
      * @throws \Exception
      */

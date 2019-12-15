@@ -6,7 +6,7 @@ if ( ! function_exists('is_windows')) {
      *
      * @return bool
      */
-    function windows_os()
+    function is_windows()
     {
         return PHP_OS_FAMILY === 'Windows';
     }

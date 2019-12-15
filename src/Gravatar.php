@@ -35,6 +35,7 @@ class Gravatar
         $url = 'https://www.gravatar.com/';
         $url .= md5(strtolower(trim($email)));
         $url .= '.json';
+
         return curl_request($url);
     }
 }
