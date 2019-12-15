@@ -1,6 +1,6 @@
 <?php
 
-if ( ! function_exists('windows_os')) {
+if ( ! function_exists('is_windows')) {
     /**
      * 检测WINDOWS系统
      *
@@ -9,6 +9,47 @@ if ( ! function_exists('windows_os')) {
     function windows_os()
     {
         return PHP_OS_FAMILY === 'Windows';
+    }
+}
+
+if ( ! function_exists('is_wechat')) {
+    /**
+     * 检测微信浏览器
+     *
+     * @return bool
+     */
+    function is_weixin()
+    {
+        if(preg_match('/MicroMessenger/i', $_SERVER['HTTP_USER_AGENT'])) {
+            return true;
+        }
+        return false;
+    }
+}
+
+if(! function_exists('ip_info')) {
+
+    /**
+     * IP 信息
+     * @param string $ip
+     * @return array
+     * @throws Exception
+     */
+    function ip_info($ip) {
+        $ip = trim($ip);
+
+        if(!filter_var($ip, FILTER_VALIDATE_IP)) {
+            throw new Exception('需要为有效IP');
+        }
+
+        $url = 'http://freeapi.ipip.net/' . $ip;
+        $res = curl_request( $url, [], 'get');
+
+        return [
+            'country'  => $res[0],
+            'province' => $res[1],
+            'city'     => $res[2],
+        ];
     }
 }
 

@@ -10,7 +10,8 @@
  */
 
 namespace Cuiqg\Helper\Sms;
-use InvalidArgumentException;
+use Exception;
+use Cuiqg\Helper\Validator;
 
 class Junlong
 {
@@ -34,7 +35,7 @@ class Junlong
      * @return bool|mixed
      * @throws \Exception
      */
-    public function send( $mobile, $content, $level = 1) {
+    public function send( $mobile, $content) {
 
         $url = 'http://hy.junlongtech.com:8086/getsms';
 
@@ -42,9 +43,8 @@ class Junlong
             'username' => $this->username,
             'password' => $this->password,
             'mobile' => $this->formatMobile($mobile),
-            'extend' => $this->extend,
-            'level' => $level,
             'content' => $content,
+            'extend' => $this->extend,
         ];
 
         $result = curl_request( $url, $params, 'post');
@@ -54,27 +54,8 @@ class Junlong
         if($parseResult['result'] == 0) {
             return $parseResult['msgid'];
         } else {
-            return false;
+            throw new Exception($this->parseError($parseResult['result']), -1);
         }
-    }
-
-    /**
-     * 余额
-     *
-     * @return string
-     * @throws \Exception
-     */
-    public function balance() {
-        $url = 'http://hy.junlongtech.com:8087/hyWeb/getbalance';
-
-        $params = [
-            'username' => $this->username,
-            'password' => $this->password,
-        ];
-
-        $result = curl_request( $url, $params, 'post');
-
-        return $result;
     }
 
     /**
@@ -83,8 +64,18 @@ class Junlong
      * @param string $mobile
      * @return string
      */
-    protected function formatMobile($mobile) {
-        return is_array($mobile) ? implode(',', $mobile) : trim($mobile);
+    private function formatMobile($mobile) {
+       if(is_array($mobile)) {
+
+            $result = array_unique($mobile);
+            $result = array_filter($result, function($val){
+                return Validator::mobile($val);
+            });
+            return implode(',', $result);
+
+       } else {
+           return trim($mobile);
+       }
     }
 
     /**
