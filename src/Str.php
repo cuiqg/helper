@@ -131,4 +131,15 @@ class Str
 
         return $mobile;
     }
+
+    public static function queryToArray(string $query) {
+        $queryArr = explode('&', $query);
+        $params = [];
+        
+        foreach ($queryArr as $param) {
+            $item = explode('=', $param);
+            $params[$item[0]] = $item[1];
+        }
+        return $params;
+    }
 }

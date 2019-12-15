@@ -54,4 +54,18 @@ class Arr
 
         return $xml;
     }
+
+    /**
+     * 数组转查询字符串
+     *
+     * @param  array  $data
+     * @return string
+     */
+    public static function arrayToQuery(array $data) {
+        $query = '';
+        foreach ($data as $key => $item) {
+            $query .= '&'.$key.'='.$item;
+        }
+        return ltrim($query, '&');
+    }
 }

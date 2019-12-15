@@ -1,76 +1,67 @@
 <?php
 
-if(! function_exists('value')) {
-    /**
-     * 返回参数
-     *
-     * @param mixed $value
-     * @return mixed
-     */
-    function value($value) {
-        return $value instanceof Closure ? $value() : $value;
-    }
-}
-
-if(! function_exists('windows_os')) {
+if ( ! function_exists('windows_os')) {
     /**
      * 检测WINDOWS系统
      *
      * @return bool
      */
-    function windows_os(){
+    function windows_os()
+    {
         return PHP_OS_FAMILY === 'Windows';
     }
 }
 
-if(! function_exists('curl_request')) {
+if ( ! function_exists('curl_request')) {
     /**
      * 进行网络请求
      *
-     * @param string $url
-     * @param string $method
-     * @param array $params
-     * @param array $header
-     * @param array $ssl
-     * @param int $timeout
+     * @param  string  $url
+     * @param  string  $method
+     * @param  array  $params
+     * @param  array  $header
+     * @param  array  $ssl
+     * @param  int  $timeout
      * @return bool|string
      * @throws Exception
      */
-    function curl_request($url, $params = [], $method = 'get', $header = [], $ssl = [], $timeout = 30) {
+    function curl_request($url, $params = [], $method = 'get', $header = [], $ssl = [], $timeout = 30)
+    {
         $ch = curl_init();
 
-        if( strcasecmp($method, 'get') == 0 && !empty($params)) {
-            $url .= '?' . http_build_query($params);
+        if (strcasecmp($method, 'get') == 0 && ! empty($params)) {
+            $url .= '?'.http_build_query($params);
         }
 
         $opts = [
-            CURLOPT_URL => $url,
-            CURLOPT_TIMEOUT => $timeout,
-            CURLOPT_READFUNCTION => TRUE,
-            CURLOPT_SSL_VERIFYHOST => FALSE,
-            CURLOPT_SSL_VERIFYPEER => FALSE,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_NONE,
-            CURLOPT_USERAGENT => 'CUIQG/HELPER',
-            CURLOPT_FOLLOWLOCATION => TRUE,
-            CURLOPT_DNS_SERVERS => '180.76.76.76',
+            CURLOPT_URL            => $url,
+            CURLOPT_TIMEOUT        => $timeout,
+            CURLOPT_HEADER         => false,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_SSL_VERIFYHOST => false,
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_NONE,
+            CURLOPT_USERAGENT      => 'CUIQG/HELPER',
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_DNS_SERVERS    => '180.76.76.76',
         ];
 
-        if(! empty($header)) {
+        if ( ! empty($header)) {
             $opts[CURLOPT_HTTPHEADER] = $header;
         }
 
-        if(! empty($ssl)) {
-            if(isset($ssl['cert'])) {
+        if ( ! empty($ssl)) {
+            if (isset($ssl['cert'])) {
                 $opts[CURLOPT_SSLCERT] = $ssl['cert'];
             }
 
-            if(isset($ssl['key'])) {
+            if (isset($ssl['key'])) {
                 $opts[CURLOPT_SSLKEY] = $ssl['key'];
             }
         }
 
-        if(strcasecmp($method , 'post')) {
-            $opts[CURLOPT_PORT] = TRUE;
+        if (strcasecmp($method, 'post')) {
+            $opts[CURLOPT_POST] = true;
             $opts[CURLOPT_POSTFIELDS] = $params;
         }
 
@@ -81,7 +72,7 @@ if(! function_exists('curl_request')) {
         $errno = curl_errno($ch);
         curl_close($ch);
 
-        if($errno) {
+        if ($errno) {
             throw new Exception($error, $errno);
         }
 
