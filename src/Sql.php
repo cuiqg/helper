@@ -15,11 +15,60 @@ use mysqli;
 class Sql
 {
 
+    /**
+     * 分页
+     *
+     * @param mysqli $db
+     * @param string $sql
+     * @param integer $page
+     * @param integer $size
+     * @return void
+     */
     public static function pager(mysqli $db, $sql, $page = 1, $size = 10) {
 
-        $sql = preg_replace('/^select/i', 'select sql_calc_found_row', $sql, 1);
+        $sql = preg_replace('/^select/i', 'select sql_calc_found_rows', $sql, 1);
+        $page = $page <= 0 ? 1 : intval( $page);
+        $size = $size <= 0 ? 10 : intval( $size);
 
-        $db->query($sql);
+        $offset = ($page - 1) * intval($size);
 
+        $sql .= " " ."limit {$offset},{$size}";
+
+        mysqli_query($db, 'set names utf8');
+
+        $rows = mysqli_query($db, $sql);
+
+        $rows_count = mysqli_num_rows($rows);
+
+        $total = mysqli_query($db, 'select found_rows()');
+
+        $total_count = current( mysqli_fetch_assoc($total));
+
+        $total_pages = ceil( $total_count / $size);
+
+        $next = ($total_pages - $page) > 0 ? $page + 1 : $total_pages;
+
+        $prev = ($page - 1) > 0 ? $page - 1 : 1;
+
+        $data = [];
+
+        while($row = mysqli_fetch_array($rows, MYSQLI_ASSOC)) {
+            $data[] = $row;
+        }
+
+        mysqli_free_result($rows);
+
+        mysqli_close($db);
+
+        return [
+            'page' => $page,
+            'prev' => $prev,
+            'next' => $next,
+            'total_page' => $total_pages,
+            'total_count' => $total_count,
+            'rows' => $data,
+        ];
     }
+
+    
 }
