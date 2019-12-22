@@ -35,4 +35,17 @@ class Validator
     public static function email(string $string) {
         return filter_var($string, FILTER_VALIDATE_EMAIL);
     }
+
+    /**
+     * 检测中文
+     * @param string $string
+     * @param int $least 最少几个字
+     * $param int $most 最多几个字
+     */
+    public function chinese(string $string, $least = 2, $most = 6) {
+
+        return filter_var($string, FILTER_VALIDATE_REGEXP, ['options' => [
+            'regexp' => '/^\p{Han}{$least, $most}$/u'
+        ]]);
+    }
 }

@@ -99,6 +99,6 @@ class Junlong
             '-110' => '其他错误'
         ];
 
-        return isset($errorArr[$key]) ? $errorArr[$key] : '为止错误';
+        return isset($errorArr[$key]) ? $errorArr[$key] : '未知错误';
     }
 }

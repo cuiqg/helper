@@ -14,27 +14,7 @@ namespace Cuiqg\Helper;
 
 class Arr
 {
-    public static function first($array, callable $callback = null, $default = null)
-    {
-        if(is_null($callback)) {
-            if(empty($array)) {
-                return value($default);
-            }
-
-            foreach($array as $item) {
-                return $item;
-            }
-        }
-
-        foreach($array as $key => $value) {
-            if($callback($value, $key)) {
-                return $value;
-            }
-        }
-
-        return value($default);
-    }
-
+   
     /**
      * 转为 XML
      * @param array $data
@@ -61,7 +41,7 @@ class Arr
      * @param  array  $data
      * @return string
      */
-    public static function arrayToQuery(array $data) {
+    public static function toQuery(array $data) {
         $query = '';
         foreach ($data as $key => $item) {
             $query .= '&'.$key.'='.$item;
