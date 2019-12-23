@@ -10,6 +10,8 @@
  */
 
 namespace Cuiqg\Helper;
+
+use \Exception;
 use mysqli;
 
 class Sql
@@ -34,9 +36,17 @@ class Sql
 
         $sql .= " " ."limit {$offset},{$size}";
 
+        if(mysqli_connect_errno()) {
+            throw new Exception(mysqli_connect_error(), -1);
+        }
+
         mysqli_query($db, 'set names utf8');
 
         $rows = mysqli_query($db, $sql);
+
+        if(mysqli_errno($db)) {
+            throw new Exception(mysqli_error($db), -1);
+        }
 
         $rows_count = mysqli_num_rows($rows);
 
@@ -69,6 +79,4 @@ class Sql
             'rows' => $data,
         ];
     }
-
-    
 }
