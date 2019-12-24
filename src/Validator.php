@@ -45,7 +45,7 @@ class Validator
     public static function name(string $string, $min = 2, $max = 6) {
 
         return filter_var($string, FILTER_VALIDATE_REGEXP, ['options' => [
-            'regexp' => '/^\p{Han}{$min, $max}$/u'
+            'regexp' => '/^\p{Han}{'.$min .','. $max.'}$/u'
         ]]);
     }
 }
