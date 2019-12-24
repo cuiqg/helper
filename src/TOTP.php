@@ -1,6 +1,6 @@
 <?php
 /**
- * ATP.php for helper.
+ * TOTP.php for helper.
  *               _
  *   _______  __(_)___ _____ _
  *  / ___/ / / / / __ `/ __ `/
