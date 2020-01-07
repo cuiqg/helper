@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Validator.php for helper.
  *               _
@@ -20,7 +21,8 @@ class Validator
      * @param string $string
      * @return bool
      */
-    public static function mobile(string $string) {
+    public static function mobile(string $string)
+    {
         return filter_var($string, FILTER_VALIDATE_REGEXP, ['options' => [
             'regexp' => '/^1[3-9]\d{9}$/'
         ]]);
@@ -32,7 +34,8 @@ class Validator
      * @param string $string
      * @return bool
      */
-    public static function email(string $string) {
+    public static function email(string $string)
+    {
         return filter_var($string, FILTER_VALIDATE_EMAIL);
     }
 
@@ -42,10 +45,23 @@ class Validator
      * @param int $min 最少几个字
      * $param int $max 最多几个字
      */
-    public static function name(string $string, $min = 2, $max = 6) {
+    public static function name(string $string, $min = 2, $max = 6)
+    {
 
         return filter_var($string, FILTER_VALIDATE_REGEXP, ['options' => [
-            'regexp' => '/^\p{Han}{'.$min .','. $max.'}$/u'
+            'regexp' => '/^\p{Han}{' . $min . ',' . $max . '}$/u'
         ]]);
+    }
+
+    /**
+     * 链接检测
+     *
+     * @param string $url
+     * @return void
+     */
+    public static function url(string $url)
+    {
+
+        return filter_var($url, FILTER_VALIDATE_URL);
     }
 }
