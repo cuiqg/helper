@@ -40,16 +40,14 @@ class Validator
     }
 
     /**
-     * 检测中文姓名
+     * 检测中文
      * @param string $string
-     * @param int $min 最少几个字
-     * $param int $max 最多几个字
      */
-    public static function name(string $string, $min = 2, $max = 6)
+    public static function chinese(string $string)
     {
 
         return filter_var($string, FILTER_VALIDATE_REGEXP, ['options' => [
-            'regexp' => '/^\p{Han}{' . $min . ',' . $max . '}$/u'
+            'regexp' => '/^\p{Han}+$/u'
         ]]);
     }
 
