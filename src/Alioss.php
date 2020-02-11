@@ -1,9 +1,10 @@
 <?php
+
 namespace Cuiqg\Helper;
 
-use OSS\OSSClient as BaseOSSClient;
+use OSS\OssClient as BaseOssClient;
 
-class Alioss extends BaseOSSClient
+class Alioss extends BaseOssClient
 {
     //
 }
