@@ -29,7 +29,7 @@ if (!function_exists('is_wechat')) {
 
 if (!function_exists('is_alipay')) {
     /**
-     * 检测微信浏览器
+     * 检测支付宝浏览器
      *
      * @return bool
      */
