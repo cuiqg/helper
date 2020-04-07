@@ -13,25 +13,27 @@ class Gravatar
      * @param string $r 评级 [ g | pg | r | x ]
      * @return string
      */
-    public static function image($email = '', $s = 80, $d = 'mp', $r = 'g') {
+    public static function image($email = '', $s = 80, $d = 'mp', $r = 'g')
+    {
         $url = 'https://www.gravatar.com/avatar/';
 
-        if(filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $url .= md5(strtolower(trim($email)));
         } else {
             $url .= str_repeat('0', 32);
         }
 
-        $url .= '?'.http_build_query([
-                's' => $s,
-                'd' => $d,
-                'r' => $r
-            ]);
+        $url .= '?' . http_build_query([
+            's' => $s,
+            'd' => $d,
+            'r' => $r
+        ]);
 
         return $url;
     }
 
-    public static function profile($email) {
+    public static function profile($email)
+    {
         $url = 'https://www.gravatar.com/';
         $url .= md5(strtolower(trim($email)));
         $url .= '.json';

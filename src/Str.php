@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Str.php for helper.
  *               _
@@ -75,13 +76,14 @@ class Str
      * @param string $end
      * @return string
      */
-    public static function limit($value, $limit = 100, $end = '...'){
+    public static function limit($value, $limit = 100, $end = '...')
+    {
 
-        if(mb_strwidth($value, 'UTF-8') <= $limit) {
+        if (mb_strwidth($value, 'UTF-8') <= $limit) {
             return $value;
         }
 
-        return rtrim(mb_strimwidth($value, 0, $limit, '', 'UTF-8')).$end;
+        return rtrim(mb_strimwidth($value, 0, $limit, '', 'UTF-8')) . $end;
     }
 
     /**
@@ -93,7 +95,7 @@ class Str
      */
     public static function length($value, $encoding = null)
     {
-        if($encoding) {
+        if ($encoding) {
             return mb_strlen($value, $encoding);
         }
 
@@ -120,22 +122,24 @@ class Str
      * @param string $replacement
      * @return string
      */
-    public static function concealMobile($mobile, $replacement = '^-^') {
+    public static function concealMobile($mobile, $replacement = '^-^')
+    {
 
         $replacement = " {$replacement} ";
 
-        if( filter_var( $mobile, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^1[2-9]\d{9}$/']])) {
+        if (filter_var($mobile, FILTER_VALIDATE_REGEXP, ['options' => ['regexp' => '/^1[2-9]\d{9}$/']])) {
 
-           return substr_replace($mobile, $replacement, 3, 4);
+            return substr_replace($mobile, $replacement, 3, 4);
         }
 
         return $mobile;
     }
 
-    public static function queryToArray(string $query) {
+    public static function queryToArray(string $query)
+    {
         $queryArr = explode('&', $query);
         $params = [];
-        
+
         foreach ($queryArr as $param) {
             $item = explode('=', $param);
             $params[$item[0]] = $item[1];

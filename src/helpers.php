@@ -1,6 +1,6 @@
 <?php
 
-if ( ! function_exists('is_windows')) {
+if (!function_exists('is_windows')) {
     /**
      * 检测WINDOWS系统
      *
@@ -12,22 +12,37 @@ if ( ! function_exists('is_windows')) {
     }
 }
 
-if ( ! function_exists('is_wechat')) {
+if (!function_exists('is_wechat')) {
     /**
      * 检测微信浏览器
      *
      * @return bool
      */
-    function is_weixin()
+    function is_wechat()
     {
-        if(preg_match('/MicroMessenger/i', $_SERVER['HTTP_USER_AGENT'])) {
+        if (preg_match('/MicroMessenger/i', $_SERVER['HTTP_USER_AGENT'])) {
             return true;
         }
         return false;
     }
 }
 
-if(! function_exists('ip_info')) {
+if (!function_exists('is_alipay')) {
+    /**
+     * 检测微信浏览器
+     *
+     * @return bool
+     */
+    function is_alipay()
+    {
+        if (preg_match('/Alipay/i', $_SERVER['HTTP_USER_AGENT'])) {
+            return true;
+        }
+        return false;
+    }
+}
+
+if (!function_exists('ip_info')) {
 
     /**
      * IP 信息
@@ -35,16 +50,17 @@ if(! function_exists('ip_info')) {
      * @return array
      * @throws Exception
      */
-    function ip_info($ip) {
+    function ip_info($ip)
+    {
         $ip = trim($ip);
 
-        if(!filter_var($ip, FILTER_VALIDATE_IP)) {
+        if (!filter_var($ip, FILTER_VALIDATE_IP)) {
             throw new Exception('IP无效');
         }
 
         $url = 'http://freeapi.ipip.net/' . $ip;
 
-        $res = curl_request( $url, [], 'get');
+        $res = curl_request($url, [], 'get');
         $res = json_decode($res, true);
 
         return [
@@ -55,7 +71,7 @@ if(! function_exists('ip_info')) {
     }
 }
 
-if ( ! function_exists('curl_request')) {
+if (!function_exists('curl_request')) {
     /**
      * 进行网络请求
      *
@@ -72,8 +88,8 @@ if ( ! function_exists('curl_request')) {
     {
         $ch = curl_init();
 
-        if (strcasecmp($method, 'get') == 0 && ! empty($params)) {
-            $url .= '?'.http_build_query($params);
+        if (strcasecmp($method, 'get') == 0 && !empty($params)) {
+            $url .= '?' . http_build_query($params);
         }
 
         $opts = [
@@ -89,11 +105,11 @@ if ( ! function_exists('curl_request')) {
             CURLOPT_DNS_SERVERS    => '180.76.76.76',
         ];
 
-        if ( ! empty($header)) {
+        if (!empty($header)) {
             $opts[CURLOPT_HTTPHEADER] = $header;
         }
 
-        if ( ! empty($ssl)) {
+        if (!empty($ssl)) {
             if (isset($ssl['cert'])) {
                 $opts[CURLOPT_SSLCERT] = $ssl['cert'];
             }

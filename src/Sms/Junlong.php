@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Junlong.php for helper.
  *               _
@@ -23,7 +24,7 @@ class Junlong
     public function __construct($config)
     {
         $this->username = $config['username'];
-        $this->password = strtoupper( md5( $config['password']));
+        $this->password = strtoupper(md5($config['password']));
         $this->extend = $config['extend'];
     }
 
@@ -35,7 +36,8 @@ class Junlong
      * @return bool|mixed
      * @throws \Exception
      */
-    public function send( $mobile, $content) {
+    public function send($mobile, $content)
+    {
 
         $url = 'http://hy.junlongtech.com:8086/getsms';
 
@@ -47,11 +49,11 @@ class Junlong
             'extend' => $this->extend,
         ];
 
-        $result = curl_request( $url, $params, 'get');
+        $result = curl_request($url, $params, 'get');
 
         parse_str($result, $parseResult);
 
-        if($parseResult['result'] == 0) {
+        if ($parseResult['result'] == 0) {
             return $parseResult['msgId'];
         } else {
             throw new Exception($this->parseError($parseResult['result']), -1);
@@ -64,18 +66,18 @@ class Junlong
      * @param string $mobile
      * @return string
      */
-    private function formatMobile($mobile) {
-       if(is_array($mobile)) {
+    private function formatMobile($mobile)
+    {
+        if (is_array($mobile)) {
 
             $result = array_unique($mobile);
-            $result = array_filter($result, function($val){
+            $result = array_filter($result, function ($val) {
                 return Validator::mobile($val);
             });
             return implode(',', $result);
-
-       } else {
-           return trim($mobile);
-       }
+        } else {
+            return trim($mobile);
+        }
     }
 
     /**
@@ -84,7 +86,8 @@ class Junlong
      * @param string $key
      * @return string
      */
-    private function parseError( $key) {
+    private function parseError($key)
+    {
         $errorArr = [
             '-100' => '参数错误',
             '-101' => '帐号和密码验证失败或是帐号被注销',
