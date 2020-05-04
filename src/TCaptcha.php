@@ -20,12 +20,12 @@ use Exception;
  */
 class TCaptcha
 {
-    protected $appid, $secret;
+    static protected $appid, $secret;
 
     public function __construct($config)
     {
-        $this->appid = $config['appid'];
-        $this->secret = $config['secret'];
+        self::$appid = $config['appid'];
+        self::$secret = $config['secret'];
     }
 
     public static function verify($ticket, $randstr, $user_ip = '0.0.0.0')
