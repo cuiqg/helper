@@ -41,7 +41,7 @@ class TCaptcha
         ];
 
         try {
-            $result = curl_request($url, $query, 'post');
+            $result = curl_request($url, $query, 'get');
         } catch (Exception $e) {
             throw $e;
         }
