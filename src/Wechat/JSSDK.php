@@ -76,7 +76,10 @@ class JSSDK
 
         if (isset($result['errcode']) && $result['errcode'] == 0) {
 
-            return $result;
+            return [
+				"ticket" => $result['ticket'],
+				"expires_in" => $result['expires_in']
+			];
         }
 
         throw new Exception($result['errmsg'], $result['errcode']);
@@ -104,11 +107,11 @@ class JSSDK
 
         $sign = sha1($str);
 
-        return json_encode([
-            'appId' => $this->appid,
-            'timestamp' => $params['timestamp'],
-            'nonceStr' => $params['noncestr'],
-            'signature' => $sign,
-        ]);
+        return [
+			'appId' => $this->appid,
+			'timestamp' => $params['timestamp'],
+			'nonceStr' => $params['noncestr'],
+			'signature' => $sign,
+		];
     }
 }
