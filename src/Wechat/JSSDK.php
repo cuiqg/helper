@@ -91,13 +91,13 @@ class JSSDK
      * @param string $ticket
      * @return void
      */
-    public function getJsApi(string $ticket)
+    public function getJsApi(string $ticket, string $url = '')
     {
         $params = [
-            'noncestr' => Str::random(16),
+            'noncestr'     => Str::random(16),
             'jsapi_ticket' => $ticket,
-            'timestamp' => time(),
-            'url' => $_SERVER['HTTP_REFERER'],
+            'timestamp'    => time(),
+            'url'          => $url ?: self_url(),
         ];
 
         ksort($params);

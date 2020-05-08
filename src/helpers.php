@@ -81,16 +81,17 @@ if (!function_exists('self_url')) {
      */
     function self_url()
     {
+        $server_name = isset($_SERVER['HTTP_X_ORIGINAL_HOST']) ? $_SERVER['HTTP_X_ORIGINAL_HOST'] : $_SERVER['SERVER_NAME'];
 
         if ($_SERVER['SERVER_PORT'] == 80) {
 
-            $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+            $url = 'http://' . $server_name . $_SERVER['REQUEST_URI'];
         } elseif ($_SERVER['SERVER_PORT'] == 443) {
 
-            $url = 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+            $url = 'https://' . $server_name . $_SERVER['REQUEST_URI'];
         } else {
 
-            $url = 'http://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
+            $url = 'http://' . $server_name . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
         }
 
         return $url;
