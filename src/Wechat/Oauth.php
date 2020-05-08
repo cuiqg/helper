@@ -55,6 +55,7 @@ class Oauth
             'redirect_uri'  => $redirect_url,
             'response_type' => 'code',
             'scope'         => $allow_scope[$scope],
+            'state'         => $state,
         ];
 
         $url .= '?' . http_build_query($query) . '#wechat_redirect';

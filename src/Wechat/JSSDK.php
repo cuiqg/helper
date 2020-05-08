@@ -77,9 +77,9 @@ class JSSDK
         if (isset($result['errcode']) && $result['errcode'] == 0) {
 
             return [
-				"ticket" => $result['ticket'],
-				"expires_in" => $result['expires_in']
-			];
+                "ticket" => $result['ticket'],
+                "expires_in" => $result['expires_in']
+            ];
         }
 
         throw new Exception($result['errmsg'], $result['errcode']);
@@ -89,16 +89,15 @@ class JSSDK
      * 前端JS初始化
      *
      * @param string $ticket
-     * @param string $url
      * @return void
      */
-    public function getJsApi(string $ticket, string $url)
+    public function getJsApi(string $ticket)
     {
         $params = [
             'noncestr' => Str::random(16),
             'jsapi_ticket' => $ticket,
             'timestamp' => time(),
-            'url' => $url,
+            'url' => $_SERVER['HTTP_REFERER'],
         ];
 
         ksort($params);
@@ -108,10 +107,10 @@ class JSSDK
         $sign = sha1($str);
 
         return [
-			'appId' => $this->appid,
-			'timestamp' => $params['timestamp'],
-			'nonceStr' => $params['noncestr'],
-			'signature' => $sign,
-		];
+            'appId'     => $this->appid,
+            'timestamp' => $params['timestamp'],
+            'nonceStr'  => $params['noncestr'],
+            'signature' => $sign,
+        ];
     }
 }
