@@ -42,7 +42,7 @@ class Sql
             throw new Exception(mysqli_connect_error(), -1);
         }
 
-        mysqli_query($db, 'set names utf8');
+        mysqli_set_charset($db, 'utf8');
 
         $rows = mysqli_query($db, $sql);
 
@@ -70,7 +70,7 @@ class Sql
 
         mysqli_free_result($rows);
 
-        mysqli_close($db);
+        //mysqli_close($db);
 
         return [
             'page' => $page,

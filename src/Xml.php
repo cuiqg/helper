@@ -11,7 +11,7 @@ class Xml
      * @param string $data
      * @return array
      */
-    public function toArray($data)
+    public static function toArray($data)
     {
 
         libxml_disable_entity_loader(TRUE);

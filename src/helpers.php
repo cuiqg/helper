@@ -115,7 +115,7 @@ if (!function_exists('curl_request')) {
     {
         $ch = curl_init();
 
-        if (strcasecmp($method, 'get') == 0 && !empty($params)) {
+        if (strtolower($method) == 'get' && !empty($params)) {
             $url .= '?' . http_build_query($params);
         }
 
@@ -126,10 +126,8 @@ if (!function_exists('curl_request')) {
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_SSL_VERIFYHOST => false,
             CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_HTTP_VERSION   => CURL_HTTP_VERSION_NONE,
             CURLOPT_USERAGENT      => 'CUIQG/HELPER',
             CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_DNS_SERVERS    => '180.76.76.76',
         ];
 
         if (!empty($header)) {
@@ -138,15 +136,17 @@ if (!function_exists('curl_request')) {
 
         if (!empty($ssl)) {
             if (isset($ssl['cert'])) {
+                $opts[CURLOPT_SSLCERTTYPE] = 'PEM';
                 $opts[CURLOPT_SSLCERT] = $ssl['cert'];
             }
 
             if (isset($ssl['key'])) {
+                $opts[CURLOPT_SSLKEYTYPE] = 'PEM';
                 $opts[CURLOPT_SSLKEY] = $ssl['key'];
             }
         }
 
-        if (strcasecmp($method, 'post')) {
+        if (strtolower($method) == 'post') {
             $opts[CURLOPT_POST] = true;
             $opts[CURLOPT_POSTFIELDS] = $params;
         }
