@@ -1,40 +1,41 @@
 {
-  "name": "cuiqg/helper",
-  "description": "个人常用辅助函数",
-  "type": "library",
-  "license": "proprietary",
-  "keywords": [
-    "helper",
-    "cuiqg"
-  ],
-  "authors": [
-    {
-      "name": "cuiqg",
-      "email": "i@cuiqg.me"
-    }
-  ],
-  "support": {
-    "source": "https://github.com/cuiqg/helper"
-  },
-  "require": {
-    "php": ">=7.0",
-    "ext-SimpleXML": "*",
-    "ext-curl": "*",
-    "ext-json": "*",
-    "ext-mbstring": "*",
-    "aliyuncs/oss-sdk-php": "~2.0"
-  },
-  "autoload": {
-      "psr-4": {
-        "Cuiqg\\Helper\\": "src/"
-      },
-    "files": [
-      "src/helpers.php"
-    ]
-  },
-  "config": {
-    "sort-packages": true
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+    "name": "cuiqg/helper",
+    "description": "个人常用辅助函数",
+    "type": "library",
+    "license": "proprietary",
+    "keywords": [
+        "helper",
+        "cuiqg"
+    ],
+    "authors": [
+        {
+            "name": "cuiqg",
+            "email": "i@cuiqg.me"
+        }
+    ],
+    "support": {
+        "source": "https://github.com/cuiqg/helper"
+    },
+    "require": {
+        "php": ">=7.0",
+        "ext-SimpleXML": "*",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-bcmath": "*",
+        "aliyuncs/oss-sdk-php": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Cuiqg\\Helper\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

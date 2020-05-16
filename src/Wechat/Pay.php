@@ -60,7 +60,7 @@ class Pay
             'body'             => $data['body'],
             'out_trade_no'     => $data['order_no'],
             'fee_type'         => 'CNY',
-            'total_fee'        => intval($data['total_fee'] * 100),
+            'total_fee'        => bcmul($data['total_fee'], 100, 0),
             'spbill_create_ip' => $data['ip'],
             'notify_url'       => $data['notify_url'],
             'trade_type'       => strtoupper($data['trade_type']),
@@ -173,8 +173,8 @@ class Pay
             'out_refund_no'   => $data['refund_no'],
             'nonce_str'       => Str::random(16),
             'sign_type'       => 'MD5',
-            'total_fee'       => intval($data['total_fee'] * 100),
-            'refund_fee'      => intval($data['refund_fee'] * 100),
+            'total_fee'       => bcmul($data['total_fee'], 100, 0),
+            'refund_fee'      => bcmul($data['refund_fee'], 100, 0),
             'refund_fee_type' => 'CNY',
             'refund_account'  => 'REFUND_SOURCE_UNSETTLED_FUNDS',
             'notify_url'      => $data['notify_url'],
@@ -213,7 +213,7 @@ class Pay
             'refund_id'      => $result['refund_id'],
             'refund_fee'     => $result['refund_fee'],
             'total_fee'      => $result['total_fee'],
-            'cash_fee'       => doubleval($result['cash_fee'] / 100),
+            'cash_fee'       => bcdiv($result['cash_fee'], 100, 2),
         ];
     }
 
@@ -223,7 +223,7 @@ class Pay
      * @param array $data
      * @return void
      */
-    private function sign(array $data)
+    public function sign(array $data)
     {
         $buff = '';
         ksort($data);
