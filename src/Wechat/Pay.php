@@ -275,7 +275,7 @@ class Pay
             'signType'  => "MD5",
         ];
 
-        $data['sign'] = self::sign($data, 'md5');
+        $data['paySign'] = self::sign($data, 'md5');
 
         return $data;
     }
