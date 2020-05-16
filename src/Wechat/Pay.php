@@ -100,11 +100,15 @@ class Pay
             throw new Exception($result['err_code_des']);
         }
 
-        return [
+        $res = [
             'trade_type' => $result['trade_type'],
             'prepay_id'  => $result['prepay_id'],
-            'code_url'   => $result['code_url'],
         ];
+
+        if (isset($result['code_url'])) {
+            $res['code_url'] = $result['code_url'];
+        }
+        return $res;
     }
 
     /**
