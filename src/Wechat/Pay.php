@@ -56,7 +56,7 @@ class Pay
             'appid'            => $this->appid,
             'mch_id'           => $this->mchid,
             'nonce_str'        => Str::random(16),
-            'sign_type'        => 'HMAC-SHA256',
+            'sign_type'        => 'MD5',
             'body'             => $data['body'],
             'out_trade_no'     => $data['order_no'],
             'fee_type'         => 'CNY',
@@ -128,7 +128,7 @@ class Pay
             'mch_id'       => $this->mchid,
             'out_trade_no' => $data['order_no'],
             'nonce_str'    => Str::random(16),
-            'sign_type'    => 'HMAC-SHA256',
+            'sign_type'    => 'MD5',
         ];
 
         $data = self::formatParam($params);
@@ -172,7 +172,7 @@ class Pay
             'out_trade_no'    => $data['order_no'],
             'out_refund_no'   => $data['refund_no'],
             'nonce_str'       => Str::random(16),
-            'sign_type'       => 'HMAC-SHA256',
+            'sign_type'       => 'MD5',
             'total_fee'       => intval($data['total_fee'] * 100),
             'refund_fee'      => intval($data['refund_fee'] * 100),
             'refund_fee_type' => 'CNY',
@@ -223,7 +223,7 @@ class Pay
      * @param array $data
      * @return void
      */
-    private function sign(array $data, string $signType = 'sha256')
+    private function sign(array $data)
     {
         $buff = '';
         ksort($data);
@@ -235,13 +235,9 @@ class Pay
         }
 
         $buff .= 'key=' . $this->key;
-        if (strtolower($signType) == 'sha256') {
-            $string = hash_hmac('sha256', $buff, $this->key);
-        } elseif (strtolower($signType) == 'md5') {
-            $string = md5($buff);
-        } else {
-            throw new Exception('签名类型不支持');
-        }
+
+        $string = md5($buff);
+
         return strtoupper($string);
     }
 
@@ -270,12 +266,12 @@ class Pay
         $data = [
             'appId'     => $this->appid,
             'timeStamp' => time(),
-            'nonceStr'  => Str::random(9),
+            'nonceStr'  => Str::random(16),
             'package'   => 'prepay_id=' . $prepay_id,
             'signType'  => "MD5",
         ];
 
-        $data['paySign'] = self::sign($data, 'md5');
+        $data['paySign'] = self::sign($data);
 
         return $data;
     }
