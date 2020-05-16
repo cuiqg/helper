@@ -66,6 +66,10 @@ class Pay
             'trade_type'       => strtoupper($data['trade_type']),
         ];
 
+        if (isset($data['attach'])) {
+            $params['attach'] = $data['attach'];
+        }
+
         if (isset($data['time_start'])) {
             $params['time_start'] = $data['time_start'];
         }
@@ -236,9 +240,7 @@ class Pay
 
         $buff .= 'key=' . $this->key;
 
-        $string = md5($buff);
-
-        return strtoupper($string);
+        return strtoupper(md5($buff));
     }
 
     /**
