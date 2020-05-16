@@ -238,7 +238,7 @@ class Pay
         if (strtolower($signType) == 'sha256') {
             $string = hash_hmac('sha256', $buff, $this->key);
         } elseif (strtolower($signType) == 'md5') {
-            $string = md5($string);
+            $string = md5($buff);
         } else {
             throw new Exception('签名类型不支持');
         }
