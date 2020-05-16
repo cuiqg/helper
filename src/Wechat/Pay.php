@@ -19,7 +19,7 @@ use Exception;
 
 class Pay
 {
-    protected $api_url, $appid, $client_secret, $client_key, $mchid, $key;
+    protected $api_url, $appid, $client_secret, $client_key, $mchid, $key, $prepay_id;
 
     public function __construct($config)
     {
@@ -104,6 +104,8 @@ class Pay
             'trade_type' => $result['trade_type'],
             'prepay_id'  => $result['prepay_id'],
         ];
+
+        $this->prepay_id = $result['prepay_id'];
 
         if (isset($result['code_url'])) {
             $res['code_url'] = $result['code_url'];
@@ -221,7 +223,7 @@ class Pay
      * @param array $data
      * @return void
      */
-    private function sign(array $data)
+    private function sign(array $data, string $signType = 'sha256')
     {
         $buff = '';
         ksort($data);
@@ -233,8 +235,13 @@ class Pay
         }
 
         $buff .= 'key=' . $this->key;
-
-        $string = hash_hmac('sha256', $buff, $this->key);
+        if (strtolower($signType) == 'sha256') {
+            $string = hash_hmac('sha256', $buff, $this->key);
+        } elseif (strtolower($signType) == 'md5') {
+            $string = md5($string);
+        } else {
+            throw new Exception('签名类型不支持');
+        }
         return strtoupper($string);
     }
 
@@ -251,5 +258,25 @@ class Pay
         $data['sign'] = self::sign($data);
 
         return Arr::toXml($data);
+    }
+
+    /**
+     * JSAPI 参数
+     */
+
+    public function jsapi($prepay_id)
+    {
+
+        $data = [
+            'appId'     => $this->appid,
+            'timeStamp' => time(),
+            'nonceStr'  => Str::random(9),
+            'package'   => 'prepay_id=' . $prepay_id,
+            'signType'  => "MD5",
+        ];
+
+        $data['sign'] = self::sign($data, 'md5');
+
+        return $data;
     }
 }
