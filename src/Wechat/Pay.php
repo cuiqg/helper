@@ -48,7 +48,7 @@ class Pay
      * @param array ['order_no', 'body','total_fee', 'ip', 'notify_url', 'trade_type']
      * @return void
      */
-    public function unfinorder(array $data)
+    public function unfinOrder(array $data)
     {
         $url = $this->api_url . 'pay/unifiedorder';
 
@@ -82,7 +82,10 @@ class Pay
             $params['openid'] = $data['openid'];
         }
 
-        $data = self::formatParam($params);
+        ksort($params);
+        $params['sign'] = self::sign($params);
+
+        $data = Arr::toXml($params);
 
         try {
             $result = curl_request($url, $data, 'post');
@@ -123,7 +126,7 @@ class Pay
      * @param array ['order_no']
      * @return void
      */
-    public function closeorder(array $data)
+    public function closeOrder(array $data)
     {
         $url = $this->api_url . 'pay/closeorder';
 
@@ -135,8 +138,10 @@ class Pay
             'sign_type'    => 'MD5',
         ];
 
-        $data = self::formatParam($params);
+        ksort($params);
+        $params['sign'] = self::sign($params);
 
+        $data = Arr::toXml($params);
         try {
             $result = curl_request($url, $data, 'post');
         } catch (Exception $e) {
@@ -161,7 +166,7 @@ class Pay
     }
 
     /**
-     * 关闭订单
+     * 退款
      *
      * @param array ['order_no', 'refund_no','total_fee', 'refund_fee', 'notify_url']
      * @return void
@@ -184,7 +189,10 @@ class Pay
             'notify_url'      => $data['notify_url'],
         ];
 
-        $data = self::formatParam($params);
+        ksort($params);
+        $params['sign'] = self::sign($params);
+
+        $data = Arr::toXml($params);
 
         try {
             $result = curl_request($url, $data, 'POST', [], [
@@ -222,6 +230,52 @@ class Pay
     }
 
     /**
+     * 二维码链接转成短链接
+     *
+     * @param string $url [weixin://wxpay/s/XXXXXX]
+     * @return void
+     */
+    public function shortUrl(string $url)
+    {
+        $url = $this->api_url . 'tools/shorturl';
+
+        $params = [
+            'appid'     => $this->appid,
+            'mch_id'    => $this->mchid,
+            'long_url'  => $url,
+            'nonce_str' => Str::random(16),
+            'sign_type' => 'MD5',
+        ];
+        ksort($params);
+        $params['sign'] = self::sign($params);
+        $params['long_url'] = urlencode($url);
+
+        $data = Arr::toXml($params);
+
+        try {
+            $result = curl_request($url, $data, 'post');
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage(), $e->getCode());
+        }
+
+        $result = Xml::toArray($result);
+
+        if ($result['return_code'] != 'SUCCESS') {
+            throw new Exception($result['return_msg']);
+        }
+
+        if ($this->sign($result) != $result['sign']) {
+            throw new Exception('返回数据签名错误');
+        }
+
+        if ($result['result_code'] != 'SUCCESS') {
+            throw new Exception($result['err_code_des']);
+        }
+
+        return $result['short_url'];
+    }
+
+    /**
      * 生成签名
      *
      * @param array $data
@@ -243,26 +297,14 @@ class Pay
         return strtoupper(md5($buff));
     }
 
-    /**
-     * 格式化参数
-     *
-     * @param [type] $data
-     * @return void
-     */
-    private function formatParam(array $data)
-    {
-
-        ksort($data);
-        $data['sign'] = self::sign($data);
-
-        return Arr::toXml($data);
-    }
 
     /**
      * JSAPI 参数
+     *
+     * @param string $prepay_id 预支付订单号
+     * @return void
      */
-
-    public function jsapi($prepay_id)
+    public function jsapi(string $prepay_id)
     {
 
         $data = [
