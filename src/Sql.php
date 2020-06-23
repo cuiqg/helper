@@ -76,8 +76,8 @@ class Sql
             'page' => $page,
             'prev' => $prev,
             'next' => $next,
-            'total_page' => $total_pages,
-            'total_count' => $total_count,
+            'total_page' => (int)$total_pages,
+            'total_count' => (int)$total_count,
             'current_count' => count($data),
             'rows' => $data,
         ];
