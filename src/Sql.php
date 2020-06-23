@@ -78,6 +78,7 @@ class Sql
             'next' => $next,
             'total_page' => $total_pages,
             'total_count' => $total_count,
+            'current_count' => count($data),
             'rows' => $data,
         ];
     }
