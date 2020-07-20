@@ -1,14 +1,17 @@
 <?php
 
-if (!function_exists('is_windows')) {
+if (!function_exists('is_mobile')) {
     /**
-     * 检测WINDOWS系统
+     * 检测是否为手机
      *
      * @return bool
      */
-    function is_windows()
+    function is_mobile()
     {
-        return PHP_OS_FAMILY === 'Windows';
+        if (preg_match('/mobile|android|iphone|ipad|iphone/i', $_SERVER['HTTP_USER_AGENT'])) {
+            return true;
+        }
+        return false;
     }
 }
 
@@ -84,13 +87,10 @@ if (!function_exists('self_url')) {
         $server_name = isset($_SERVER['HTTP_X_ORIGINAL_HOST']) ? $_SERVER['HTTP_X_ORIGINAL_HOST'] : $_SERVER['SERVER_NAME'];
 
         if ($_SERVER['SERVER_PORT'] == 80) {
-
             $url = 'http://' . $server_name . $_SERVER['REQUEST_URI'];
         } elseif ($_SERVER['SERVER_PORT'] == 443) {
-
             $url = 'https://' . $server_name . $_SERVER['REQUEST_URI'];
         } else {
-
             $url = 'http://' . $server_name . ':' . $_SERVER['SERVER_PORT'] . $_SERVER['REQUEST_URI'];
         }
 

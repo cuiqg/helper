@@ -64,6 +64,7 @@ class Pay
             'spbill_create_ip' => $data['ip'],
             'notify_url'       => $data['notify_url'],
             'trade_type'       => strtoupper($data['trade_type']),
+            'scene_info'       => json_encode($data['scene_info'],JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
         ];
 
         if (isset($data['attach'])) {
