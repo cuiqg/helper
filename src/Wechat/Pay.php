@@ -121,16 +121,12 @@ class Pay
 
         $this->prepay_id = $result['prepay_id'];
 
-        if (isset($result['mweb_url'])) {
-            $res['mweb_url'] = $result['mweb_url'];
-        }
-
         if (isset($result['code_url'])) {
             $res['code_url'] = $result['code_url'];
         }
         
         if (isset($result['mweb_url'])) {
-            $res['mweb_url'] = $result['mweb_url'];   
+            $res['mweb_url'] = $result['mweb_url'];
         }
         
         return $res;
