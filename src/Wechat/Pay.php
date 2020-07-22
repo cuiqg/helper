@@ -19,7 +19,13 @@ use Exception;
 
 class Pay
 {
-    protected $api_url, $appid, $client_secret, $client_key, $mchid, $key, $prepay_id;
+    protected $api_url;
+    protected $appid;
+    protected $client_secret;
+    protected $client_key;
+    protected $mchid;
+    protected $key;
+    protected $prepay_id;
 
     public function __construct($config)
     {
@@ -64,7 +70,7 @@ class Pay
             'spbill_create_ip' => $data['ip'],
             'notify_url'       => $data['notify_url'],
             'trade_type'       => strtoupper($data['trade_type']),
-            'scene_info'       => json_encode($data['scene_info'],JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+            'scene_info'       => json_encode($data['scene_info'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
         ];
 
         if (isset($data['attach'])) {
@@ -114,6 +120,10 @@ class Pay
         ];
 
         $this->prepay_id = $result['prepay_id'];
+
+        if (isset($result['mweb_url'])) {
+            $res['mweb_url'] = $result['mweb_url'];
+        }
 
         if (isset($result['code_url'])) {
             $res['code_url'] = $result['code_url'];
@@ -288,7 +298,6 @@ class Pay
         ksort($data);
         foreach ($data as $key => $item) {
             if ($key != 'sign' && $item != '' && !is_array($item)) {
-
                 $buff .= $key . '=' . $item . '&';
             }
         }
@@ -307,11 +316,10 @@ class Pay
      */
     public function jsapi(string $prepay_id)
     {
-
         $data = [
             'appId'     => $this->appid,
-            'timeStamp' => time(),
-            'nonceStr'  => Str::random(16),
+            'timeStamp' => (string)time(),
+            'nonceStr'  => (string)Str::random(16),
             'package'   => 'prepay_id=' . $prepay_id,
             'signType'  => "MD5",
         ];
