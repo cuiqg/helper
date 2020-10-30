@@ -74,6 +74,7 @@ class Sql
 
         return [
             'page' => $page,
+            'size' => $size,
             'prev' => $prev,
             'next' => $next,
             'total_page' => (int)$total_pages,
