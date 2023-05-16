@@ -4,13 +4,12 @@
     "type": "library",
     "license": "proprietary",
     "keywords": [
-        "helper",
-        "cuiqg"
+        "helper"
     ],
     "authors": [
         {
             "name": "cuiqg",
-            "email": "i@cuiqg.me"
+            "email": "i@tsuiqg.xyz"
         }
     ],
     "support": {
