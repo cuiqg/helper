@@ -1,6 +1,7 @@
 {
     "name": "cuiqg/helper",
     "description": "个人常用辅助函数",
+    "version": "1.6.8",
     "type": "library",
     "license": "proprietary",
     "keywords": [
